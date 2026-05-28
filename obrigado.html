@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obrigado! Seu Mapa está sendo gerado</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+  <style>
+    body {
+      background: #06060a;
+      color: #c8c4bc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      padding: 40px 20px;
+      background: rgba(180,150,80,0.03);
+      border: 1px solid rgba(180,150,80,0.1);
+      border-radius: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    h1 {
+      color: #d4b96a;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      margin: 0 0 16px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      color: #a89878;
+    }
+    .alert-box {
+      background: rgba(200, 50, 50, 0.1);
+      border: 1px solid rgba(200, 50, 50, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      color: #e8a0a0;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .alert-box strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffcccc;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .ambient {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(180,150,80,0.08) 0%, transparent 60%);
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient"></div>
+  <div class="container">
+    <div class="icon">✨</div>
+    <h1>Pagamento Confirmado</h1>
+    <p>Os números do seu nascimento acabaram de ser alinhados pelo nosso sistema. O seu Mapa Arquetípico já entrou em processo de cálculo profundo.</p>
+    
+    <div class="alert-box">
+      <strong>ATENÇÃO!</strong>
+      Sua análise está sendo gerada neste exato momento.<br><br>
+      Verifique a sua caixa de entrada (e a pasta de SPAM ou Promoções) nos próximos <b>5 a 15 minutos</b>. O seu link de acesso exclusivo chegará por e-mail!
+    </div>
+  </div>
+</body>
+</html>

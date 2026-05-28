@@ -100,13 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = value;
   });
 
-  // ─── HOTMART CHECKOUT URL ───────────────────
-  const HOTMART_CHECKOUT_URL = 'https://pay.hotmart.com/G106007349B';
+  // ─── CHECKOUT URL (EDUZZ) ───────────────────
+  const EDUZZ_CHECKOUT_URL = 'https://chk.eduzz.com/R9JXEZXP0X';
+
+  // ─── SUPABASE INITIALIZATION ────────────────
+  const supabaseUrl = 'https://twkmeyojrsfsbrufffvj.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a21leW9qcnNmc2JydWZmZnZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5OTcxODksImV4cCI6MjA5NTU3MzE4OX0.VQx86LyaeXfaHZjQiS_G5ZHlTVPBs6g_HqM5TGzaujk';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   // ─── FORM SUBMISSION ────────────────────────
   const heroForm = document.getElementById('heroForm');
 
-  heroForm.addEventListener('submit', (e) => {
+  heroForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const name = document.getElementById('inputName').value.trim();
@@ -126,24 +131,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Visual feedback
     const btn = document.getElementById('btnHero');
     const originalText = btn.innerHTML;
-    btn.innerHTML = '✦ REDIRECIONANDO...';
+    btn.innerHTML = '✦ GERANDO PORTAL...';
     btn.style.pointerEvents = 'none';
     btn.style.opacity = '0.7';
 
-    // Build Hotmart checkout URL with pre-filled name
-    const checkoutUrl = `${HOTMART_CHECKOUT_URL}?name=${encodeURIComponent(name)}`;
+    try {
+      // 1. Gera um UUID único para esta tentativa
+      const leadId = crypto.randomUUID();
 
-    // Small delay for visual feedback, then redirect
-    setTimeout(() => {
-      window.open(checkoutUrl, '_blank');
+      // 2. Salva no Supabase
+      const { error } = await supabase
+        .from('leads')
+        .insert([
+          { id: leadId, name: name, birthdate: birthdate }
+        ]);
 
-      // Reset button after redirect
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.pointerEvents = '';
-        btn.style.opacity = '';
-      }, 1000);
-    }, 800);
+      if (error) {
+        console.error('Erro ao salvar no Supabase:', error);
+        // Mesmo se der erro, redireciona como fallback passando a data pura no UTM
+        window.location.href = `${EDUZZ_CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        return;
+      }
+
+      // 3. Redireciona para Eduzz passando o ID no UTM Content
+      // Usamos location.href ao invés de window.open para evitar bloqueios de popup e fluir melhor
+      const checkoutUrl = `${EDUZZ_CHECKOUT_URL}?utm_content=${leadId}`;
+      window.location.href = checkoutUrl;
+
+    } catch (err) {
+      console.error('Erro inesperado:', err);
+      // Fallback
+      window.location.href = `${EDUZZ_CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+    }
   });
 
   // ─── SMOOTH SCROLL FOR BUTTONS ──────────────
