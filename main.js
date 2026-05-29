@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = value;
   });
 
-  // ─── CHECKOUT URL (EDUZZ) ───────────────────
-  const EDUZZ_CHECKOUT_URL = 'https://chk.eduzz.com/R9JXEZXP0X';
+  // ─── CHECKOUT URL (CAKTO) ───────────────────
+  const CHECKOUT_URL = 'https://pay.cakto.com.br/32cujp5_905426';
 
   // ─── SUPABASE INITIALIZATION ────────────────
   const supabaseUrl = 'https://twkmeyojrsfsbrufffvj.supabase.co';
@@ -148,20 +148,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (error) {
         console.error('Erro ao salvar no Supabase:', error);
-        // Mesmo se der erro, redireciona como fallback passando a data pura no UTM
-        window.location.href = `${EDUZZ_CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
         return;
       }
 
-      // 3. Redireciona para Eduzz passando o ID no UTM Content
-      // Usamos location.href ao invés de window.open para evitar bloqueios de popup e fluir melhor
-      const checkoutUrl = `${EDUZZ_CHECKOUT_URL}?utm_content=${leadId}`;
+      // 3. Redireciona para Cakto passando o ID no UTM Content
+      const checkoutUrl = `${CHECKOUT_URL}?utm_content=${leadId}`;
       window.location.href = checkoutUrl;
 
     } catch (err) {
       console.error('Erro inesperado:', err);
       // Fallback
-      window.location.href = `${EDUZZ_CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+      window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
     }
   });
 
