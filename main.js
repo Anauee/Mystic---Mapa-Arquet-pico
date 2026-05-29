@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = value;
   });
 
-  // ─── CHECKOUT URL (CAKTO) ───────────────────
-  const CHECKOUT_URL = 'https://pay.cakto.com.br/32cujp5_905426';
+  // ─── CHECKOUT URL (GG CHECKOUT) ───────────────
+  const CHECKOUT_URL = 'https://ggcheckout.app/checkout/v5/0rMhrAKclsjLJgn5EfdA';
 
   // ─── SUPABASE INITIALIZATION ────────────────
   const supabaseUrl = 'https://twkmeyojrsfsbrufffvj.supabase.co';
