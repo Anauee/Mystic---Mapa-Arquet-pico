@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ─── CHECKOUT URL (GG CHECKOUT) ───────────────
-  const CHECKOUT_URL = 'https://ggcheckout.app/checkout/v5/0rMhrAKclsjLJgn5EfdA';
+  const CHECKOUT_URL = 'https://ggcheckout.app/checkout/v2/0rMhrAKclsjLJgn5EfdA';
 
   // ─── SUPABASE INITIALIZATION ────────────────
   const supabaseUrl = 'https://twkmeyojrsfsbrufffvj.supabase.co';
