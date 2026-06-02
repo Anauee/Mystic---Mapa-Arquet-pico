@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const CHECKOUT_URL = 'https://ggcheckout.app/checkout/v2/0rMhrAKclsjLJgn5EfdA';
 
   // ─── SUPABASE INITIALIZATION ────────────────
-  const supabaseUrl = 'https://twkmeyojrsfsbrufffvj.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a21leW9qcnNmc2JydWZmZnZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5OTcxODksImV4cCI6MjA5NTU3MzE4OX0.VQx86LyaeXfaHZjQiS_G5ZHlTVPBs6g_HqM5TGzaujk';
+  const supabaseUrl = 'https://byvqrhywvzztnwkdauyx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5dnFyaHl3dnp6dG53a2RhdXl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MTIxMjAsImV4cCI6MjA5NTk4ODEyMH0.MvgnUxAAh8ktlm6OwN89S_PZe9Hxk29FfK3NFEG4QKI';
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   // ─── FORM SUBMISSION ────────────────────────
@@ -148,7 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (error) {
         console.error('Erro ao salvar no Supabase:', error);
-        window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
+        setTimeout(() => {
+          window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        }, 400);
         return;
       }
 
@@ -174,10 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Configure button action
     btnPopupCheckout.onclick = () => {
+      if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
       btnPopupCheckout.innerHTML = '✦ REDIRECIONANDO...';
       btnPopupCheckout.style.pointerEvents = 'none';
       btnPopupCheckout.style.opacity = '0.7';
-      window.location.href = url;
+      setTimeout(() => {
+        window.location.href = url;
+      }, 400);
     };
   }
 
