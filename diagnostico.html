@@ -153,7 +153,7 @@
     .report-mock-lock-icon {
       font-size: 3rem;
       margin-bottom: 16px;
-      animation: pulse-glow 2s infinite;
+      animation: pulse-text-glow 2s infinite;
     }
 
     .report-mock-lock-text {
@@ -177,6 +177,56 @@
       margin: 0 auto 16px auto;
       box-shadow: 0 0 30px rgba(212, 185, 106, 0.15);
       animation: pulse-glow 2s infinite;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .resultado-container {
+        margin: 20px 10px;
+        padding: 30px 20px;
+      }
+      
+      .alert-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .status {
+        font-size: 1.1rem;
+      }
+      
+      .report-body {
+        font-size: 1.05rem;
+        margin-bottom: 30px;
+      }
+      
+      .report-mock {
+        padding: 24px 16px;
+      }
+      
+      .report-mock-title {
+        font-size: 1.4rem;
+      }
+      
+      .report-mock-text {
+        font-size: 1.05rem;
+      }
+      
+      .report-mock-lock-icon {
+        font-size: 2.5rem;
+      }
+      
+      .report-mock-lock-text {
+        font-size: 0.95rem;
+      }
+      
+      .btn-unlock-custom {
+        padding: 16px 20px;
+        font-size: 0.85rem;
+      }
+      
+      .cta-container p {
+        font-size: 1rem !important;
+      }
     }
 
     .cta-texto {

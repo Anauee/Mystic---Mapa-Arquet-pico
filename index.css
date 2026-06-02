@@ -540,6 +540,15 @@ section {
   }
 }
 
+@keyframes pulse-text-glow {
+  0%, 100% { 
+    text-shadow: 0 0 10px transparent; 
+  }
+  50% { 
+    text-shadow: 0 0 20px var(--gold-glow); 
+  }
+}
+
 /* ============================================
    SECTION 3: 4 PILLARS
    ============================================ */
@@ -1452,7 +1461,7 @@ section {
   transform: translate(-50%, -50%);
   color: var(--color-gold);
   font-size: 20px;
-  animation: pulse-glow 2s infinite;
+  animation: pulse-text-glow 2s infinite;
 }
 
 @keyframes spin {
@@ -1465,7 +1474,7 @@ section {
   color: var(--color-gold);
   margin-bottom: 20px;
   min-height: 40px;
-  animation: pulse-glow 2s infinite;
+  animation: pulse-text-glow 2s infinite;
 }
 
 .loading-progress {
