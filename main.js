@@ -130,10 +130,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Visual feedback
     const btn = document.getElementById('btnHero');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '✦ GERANDO PORTAL...';
+    btn.innerHTML = '✦ INICIANDO ANÁLISE...';
     btn.style.pointerEvents = 'none';
     btn.style.opacity = '0.7';
+
+    // Inicia a Tela de Loading
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingText = document.getElementById('loadingText');
+    const loadingProgressBar = document.getElementById('loadingProgressBar');
+    let textInterval, progressInterval;
+
+    if (loadingScreen) {
+      loadingScreen.classList.add('visible');
+      
+      const phrases = [
+        "Sincronizando dados...",
+        "Calculando Padrões Arquetípicos...",
+        "Detectando Traços de Sombra...",
+        "Analisando Autossabotagem...",
+        "Gerando Diagnóstico Crítico..."
+      ];
+      let phraseIndex = 0;
+      let progress = 0;
+      
+      textInterval = setInterval(() => {
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        if (loadingText) loadingText.innerHTML = phrases[phraseIndex];
+      }, 1000);
+
+      progressInterval = setInterval(() => {
+        progress += (100 / 5); // 5 segundos totaal
+        if (progress > 100) progress = 100;
+        if (loadingProgressBar) loadingProgressBar.style.width = `${progress}%`;
+      }, 1000);
+    }
 
     try {
       // 1. Gera um UUID único para esta tentativa
@@ -148,44 +178,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (error) {
         console.error('Erro ao salvar no Supabase:', error);
-        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
-        setTimeout(() => {
-          window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
-        }, 400);
-        return;
       }
 
-      // 3. Mostra o pop-up e configura o botão do checkout
-      const checkoutUrl = `${CHECKOUT_URL}?utm_content=${leadId}`;
-      showPopup(checkoutUrl);
+      // 3. Aguarda ~5 segundos totais para dar a sensação de processamento
+      setTimeout(() => {
+        if (loadingProgressBar) loadingProgressBar.style.width = `100%`;
+        if (loadingText) loadingText.innerHTML = "Diagnóstico Concluído!";
+        
+        // Redireciona para a página de diagnóstico
+        window.location.href = `diagnostico.html?leadId=${leadId}&b=${encodeURIComponent(birthdate)}`;
+      }, 5000);
 
     } catch (err) {
       console.error('Erro inesperado:', err);
-      // Fallback
-      const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
-      showPopup(fallbackUrl);
+      // Fallback: se algo der errado, manda direto
+      window.location.href = `diagnostico.html?b=${encodeURIComponent(birthdate)}`;
     }
   });
 
-  // ─── POPUP LOGIC ────────────────────────────
-  const popup = document.getElementById('checkoutPopup');
-  const btnPopupCheckout = document.getElementById('btnPopupCheckout');
-
-  function showPopup(url) {
-    if (!popup) return;
-    popup.classList.add('visible');
-    
-    // Configure button action
-    btnPopupCheckout.onclick = () => {
-      if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
-      btnPopupCheckout.innerHTML = '✦ REDIRECIONANDO...';
-      btnPopupCheckout.style.pointerEvents = 'none';
-      btnPopupCheckout.style.opacity = '0.7';
-      setTimeout(() => {
-        window.location.href = url;
-      }, 400);
-    };
-  }
+  // (Removido: POPUP LOGIC antigo)
 
   // ─── SMOOTH SCROLL FOR BUTTONS ──────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
