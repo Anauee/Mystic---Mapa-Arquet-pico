@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Visual feedback
     const btn = document.getElementById('btnHero');
     const originalText = btn.innerHTML;
-    btn.innerHTML = '✦ GERANDO PORTAL...';
+    btn.innerHTML = '✦ GERANDO MAPA (PODE LEVAR 20 SEGUNDOS)...';
     btn.style.pointerEvents = 'none';
     btn.style.opacity = '0.7';
 
@@ -148,38 +148,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (error) {
         console.error('Erro ao salvar no Supabase:', error);
+        // Fallback direto para o checkout se der erro no banco
         window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
         return;
       }
 
-      // 3. Mostra o pop-up e configura o botão do checkout
-      const checkoutUrl = `${CHECKOUT_URL}?utm_content=${leadId}`;
-      showPopup(checkoutUrl);
+      // 3. Chama a API do Entregável para gerar o preview do relatório
+      const response = await fetch('https://mapa-arquet-pico-entregavel.vercel.app/api/gerar-preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId, nome: name, birthdate })
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao gerar o preview na API.');
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.previewHtml) {
+        // 4. Salva o HTML do preview no sessionStorage e redireciona
+        sessionStorage.setItem('previewHtml', data.previewHtml);
+        sessionStorage.setItem('leadId', leadId);
+        window.location.href = 'resultado.html';
+      } else {
+        throw new Error('API não retornou sucesso ou html vazio.');
+      }
 
     } catch (err) {
       console.error('Erro inesperado:', err);
-      // Fallback
+      // Fallback: se houver qualquer erro na geração (DeepSeek cair, etc),
+      // mandamos direto para o checkout para não perder a venda.
       const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
-      showPopup(fallbackUrl);
+      window.location.href = fallbackUrl;
     }
   });
-
-  // ─── POPUP LOGIC ────────────────────────────
-  const popup = document.getElementById('checkoutPopup');
-  const btnPopupCheckout = document.getElementById('btnPopupCheckout');
-
-  function showPopup(url) {
-    if (!popup) return;
-    popup.classList.add('visible');
-    
-    // Configure button action
-    btnPopupCheckout.onclick = () => {
-      btnPopupCheckout.innerHTML = '✦ REDIRECIONANDO...';
-      btnPopupCheckout.style.pointerEvents = 'none';
-      btnPopupCheckout.style.opacity = '0.7';
-      window.location.href = url;
-    };
-  }
 
   // ─── SMOOTH SCROLL FOR BUTTONS ──────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
