@@ -152,16 +152,34 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // 3. Redireciona para Cakto passando o ID no UTM Content
+      // 3. Mostra o pop-up e configura o botão do checkout
       const checkoutUrl = `${CHECKOUT_URL}?utm_content=${leadId}`;
-      window.location.href = checkoutUrl;
+      showPopup(checkoutUrl);
 
     } catch (err) {
       console.error('Erro inesperado:', err);
       // Fallback
-      window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+      const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+      showPopup(fallbackUrl);
     }
   });
+
+  // ─── POPUP LOGIC ────────────────────────────
+  const popup = document.getElementById('checkoutPopup');
+  const btnPopupCheckout = document.getElementById('btnPopupCheckout');
+
+  function showPopup(url) {
+    if (!popup) return;
+    popup.classList.add('visible');
+    
+    // Configure button action
+    btnPopupCheckout.onclick = () => {
+      btnPopupCheckout.innerHTML = '✦ REDIRECIONANDO...';
+      btnPopupCheckout.style.pointerEvents = 'none';
+      btnPopupCheckout.style.opacity = '0.7';
+      window.location.href = url;
+    };
+  }
 
   // ─── SMOOTH SCROLL FOR BUTTONS ──────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
