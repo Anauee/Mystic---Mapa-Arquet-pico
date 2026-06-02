@@ -130,10 +130,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Visual feedback
     const btn = document.getElementById('btnHero');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '✦ GERANDO MAPA (PODE LEVAR 20 SEGUNDOS)...';
+    btn.innerHTML = '✦ GERANDO MAPA...';
     btn.style.pointerEvents = 'none';
     btn.style.opacity = '0.7';
+
+    // Inicia a Tela de Loading
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingText = document.getElementById('loadingText');
+    const loadingProgressBar = document.getElementById('loadingProgressBar');
+    let textInterval, progressInterval;
+
+    if (loadingScreen) {
+      loadingScreen.classList.add('visible');
+      
+      const phrases = [
+        "Consultando as constelações...",
+        "Calculando sua Numerologia...",
+        "Analisando seu Arquétipo Base...",
+        "Mapeando suas Sombras...",
+        "Sintetizando o seu Destino...",
+        "Finalizando relatório..."
+      ];
+      let phraseIndex = 0;
+      let progress = 0;
+      
+      textInterval = setInterval(() => {
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        if (loadingText) loadingText.innerHTML = phrases[phraseIndex];
+      }, 3500);
+
+      progressInterval = setInterval(() => {
+        progress += (100 / 20); // Simula 20 segundos
+        if (progress > 95) progress = 95;
+        if (loadingProgressBar) loadingProgressBar.style.width = `${progress}%`;
+      }, 1000);
+    }
 
     try {
       // 1. Gera um UUID único para esta tentativa
@@ -170,10 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (data.success && data.previewHtml) {
+        // Completa a barra de progresso antes de redirecionar
+        if (loadingProgressBar) loadingProgressBar.style.width = `100%`;
+        if (loadingText) loadingText.innerHTML = "Mapa concluído!";
+        
         // 4. Salva o HTML do preview no sessionStorage e redireciona
         sessionStorage.setItem('previewHtml', data.previewHtml);
         sessionStorage.setItem('leadId', leadId);
-        window.location.href = 'resultado.html';
+        
+        setTimeout(() => {
+          window.location.href = 'resultado.html';
+        }, 500);
       } else {
         throw new Error('API não retornou sucesso ou html vazio.');
       }
@@ -187,6 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
         window.location.href = fallbackUrl;
       }, 400);
+    } finally {
+      // Limpa os intervalos
+      if (textInterval) clearInterval(textInterval);
+      if (progressInterval) clearInterval(progressInterval);
     }
   });
 
