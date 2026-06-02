@@ -149,7 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (error) {
         console.error('Erro ao salvar no Supabase:', error);
         // Fallback direto para o checkout se der erro no banco
-        window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
+        setTimeout(() => {
+          window.location.href = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        }, 400);
         return;
       }
 
@@ -179,8 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Erro inesperado:', err);
       // Fallback: se houver qualquer erro na geração (DeepSeek cair, etc),
       // mandamos direto para o checkout para não perder a venda.
-      const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
-      window.location.href = fallbackUrl;
+      if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
+      setTimeout(() => {
+        const fallbackUrl = `${CHECKOUT_URL}?utm_content=${encodeURIComponent(birthdate)}`;
+        window.location.href = fallbackUrl;
+      }, 400);
     }
   });
 
