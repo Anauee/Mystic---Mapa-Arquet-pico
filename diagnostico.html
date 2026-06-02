@@ -100,69 +100,83 @@
       color: #fff;
     }
 
-    .locked-section {
-      background: rgba(6, 6, 10, 0.8);
+    .report-mock {
+      background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(212, 185, 106, 0.2);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 32px;
-      position: relative;
       margin-bottom: 40px;
-    }
-
-    .locked-title {
-      color: var(--color-gold);
-      font-family: 'Inter', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .locked-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .locked-list li {
       position: relative;
-      padding-left: 36px;
-      margin-bottom: 20px;
-      color: #a09d96;
-      font-size: 1.05rem;
-      line-height: 1.6;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', serif;
     }
 
-    .locked-list li::before {
-      content: '🔒';
+    .report-mock::after {
+      content: '';
       position: absolute;
+      top: 0;
       left: 0;
-      top: 2px;
-      font-size: 1.1rem;
-      opacity: 0.6;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 10%, rgba(10, 10, 14, 0.95) 80%);
+      pointer-events: none;
+      z-index: 2;
     }
 
-    .locked-list li strong {
-      color: #d8d0c0;
-      display: block;
-      margin-bottom: 4px;
+    .report-mock-title {
+      color: var(--color-gold);
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      filter: blur(4px);
+      opacity: 0.8;
+    }
+
+    .report-mock-text {
+      color: #a09d96;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      filter: blur(5px);
+      opacity: 0.7;
+    }
+
+    .report-mock-lock {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      text-align: center;
+      color: var(--color-gold);
+    }
+
+    .report-mock-lock-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .report-mock-lock-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
     }
 
     .cta-container {
       text-align: center;
       padding-top: 20px;
+      position: relative;
+      z-index: 5;
     }
 
-    .btn-unlock {
-      font-size: 1.1rem;
-      padding: 20px 40px;
-      box-shadow: 0 0 30px rgba(212, 185, 106, 0.2);
+    .btn-unlock-custom {
+      max-width: 400px;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 0 30px rgba(212, 185, 106, 0.15);
       animation: pulse-glow 2s infinite;
-      margin-bottom: 16px;
-      width: 100%;
-      max-width: 500px;
     }
 
     .cta-texto {
@@ -185,7 +199,7 @@
     <div class="alert-header">
       <div class="alert-badge">Atenção</div>
       <h1>Análise Psicológica de Perfil Detectada</h1>
-      <div class="status">Status: Consciência de Sombra Ativa (Alerta Vermelho)</div>
+      <div class="status">Consciência de Sombra Ativa (Alerta Vermelho)</div>
     </div>
 
     <div class="report-body">
@@ -196,31 +210,24 @@
       <p>Se você continuar operando sob essa sombra nas próximas semanas, a tendência matemática é que você quebre o ritmo do seu projeto atual e volte à estaca zero, exatamente como aconteceu nos seus últimos dois ciclos.</p>
     </div>
 
-    <div class="locked-section">
-      <div class="locked-title">
-        <span>🔓</span> O que está bloqueado no seu Relatório Completo:
+    <div class="report-mock">
+      <div class="report-mock-lock">
+        <div class="report-mock-lock-icon">🔒</div>
+        <div class="report-mock-lock-text">Relatório Completo Bloqueado</div>
       </div>
-      <ul class="locked-list">
-        <li>
-          <strong>O Nome do seu Arquétipo Dominante:</strong>
-          (Sem saber o nome, ele não consegue pesquisar no Google para se curar sozinho).
-        </li>
-        <li>
-          <strong>O Gatilho Ativador da sua Sombra:</strong>
-          O motivo exato, baseado na sua data de nascimento, que faz você destravar a procrastinação.
-        </li>
-        <li>
-          <strong>O Protocolo de Integração (A Cura):</strong>
-          O plano de ação de engenharia reversa para usar essa força oculta a favor do seu foco e do seu bolso.
-        </li>
-      </ul>
+      <div class="report-mock-title">1. O Arquétipo da Essência</div>
+      <div class="report-mock-text">O seu arquétipo dominante é o XXXXXX. A sua sombra é ativada quando você se encontra em situações de pressão, desencadeando um comportamento de fuga e auto-sabotagem.</div>
+      <div class="report-mock-title">2. O Gatilho Ativador</div>
+      <div class="report-mock-text">Você precisa aprender a reconhecer os sinais antes que o padrão se instale. O seu gatilho principal está ligado a XXXXXXX, o que faz com que você perca energia vital.</div>
+      <div class="report-mock-title">3. O Protocolo de Integração</div>
+      <div class="report-mock-text">Para reverter esse processo, você deve aplicar o método XXXXXX todos os dias. Isso vai redirecionar a sua energia para a execução e prosperidade.</div>
     </div>
 
     <div class="cta-container">
       <p style="color: #fff; margin-bottom: 24px; font-size: 1.1rem;">Para desbloquear o seu diagnóstico completo + Guia de Cura por apenas <strong>R$ 9,99</strong>, clique no botão abaixo.</p>
       
-      <a href="#" id="btnUnlock" class="btn-primary btn-unlock">
-        ✦ DESBLOQUEAR GUIA DE CURA (R$ 9,99)
+      <a href="#" id="btnUnlock" class="btn-primary btn-unlock-custom">
+        ✦ LIBERAR RELATÓRIO AGORA
       </a>
       <p class="cta-texto">🔒 Pagamento 100% seguro — Liberação imediata no e-mail</p>
     </div>
